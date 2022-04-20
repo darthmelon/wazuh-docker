@@ -3,6 +3,7 @@ ca:
       dn: CN=root-ca,OU=beeteedubs,O=beeteedubs
       pkPassword: none
       keysize: 2048
+      validityDays: 3650
       file: root-ca.pem
    intermediate:
       dn: CN=intermediate,OU=beeteedubs,O=beeteedubs
@@ -12,30 +13,38 @@ ca:
       file: intermediate-ca.pem
 
 nodes:
-  - name: node1
-    dn: CN=node1,OU=beeteedubs,O=beeteedubs
+  - name: es01
+    dn: CN=es01,OU=beeteedubs,O=beeteedubs
     dns:
       - elasticsearch
-  - name: node2
-    dn: CN=node2,OU=beeteedubs,O=beeteedubs
+      - es01
+  - name: es02
+    dn: CN=es02,OU=beeteedubs,O=beeteedubs
     dns:
-      - elasticsearch-2
-  - name: node3
-    dn: CN=node3,OU=beeteedubs,O=beeteedubs
+      - es02
+  - name: es03
+    dn: CN=es03,OU=beeteedubs,O=beeteedubs
     dns:
-      - elasticsearch-3
+      - es03
+  - name: es04
+    dn: CN=es04,OU=beeteedubs,O=beeteedubs
+    dns:
+      - es04
+  - name: es05
+    dn: CN=es05,OU=beeteedubs,O=beeteedubs
+    dns:
+      - es05
+  - name: es06
+    dn: CN=es06,OU=beeteedubs,O=beeteedubs
+    dns:
+      - es06
   - name: filebeat
-<<<<<<< HEAD
     dn: CN=filebeat,OU=beeteedubs,O=beeteedubs
     dns:
       - wazuh
-=======
-    dn: CN=filebeat,OU=Ops,O=Example\, Inc.,DC=example,DC=com
-    dns: 
-      - wazuh
+
 
 clients:
   - name: admin
-    dn: CN=admin,OU=Ops,O=Example\, Inc.,DC=example,DC=com
+    dn: CN=admin,OU=beeteedubs,O=beeteedubs
     admin: true
->>>>>>> 9cd399c2dfd8afbb9deb89c8c7f26fc4c8d2f2e4

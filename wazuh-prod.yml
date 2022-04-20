@@ -33,39 +33,10 @@ services:
       - /data/wazuh/manager/ossec:/var/ossec
       - /data/wazuh/manager/filebeat/etc:/etc/filebeat
       - /data/wazuh/manager/filebeat/var:/var/lib/filebeat
-      - /data/wazuh/ssl_certs/root-ca.pem:/etc/ssl/root-ca.pem
-      - /data/wazuh/ssl_certs/filebeat.pem:/etc/ssl/filebeat.pem
-      - /data/wazuh/ssl_certs/filebeat.key:/etc/ssl/filebeat.key
       - /data/wazuh/manager/wazuh_manager.conf:/wazuh-config-mount/etc/ossec.conf
-  
-  wazuh-worker:
-    image: wazuh/wazuh-odfe:4.4.0
-    hostname: wazuh-worker
-    container_name: wazuh-mworker
-    restart: always
-    cpus: 0.5
-    mem_limit: 2g
-    networks:
-      wazuh:
-        ipv4_address: 10.0.1.6
-    env_file:
-      - ".env"
-    environment:
-      - ELASTICSEARCH_URL=https://elasticsearch:9200
-      - ELASTIC_USERNAME=admin
-      - ELASTIC_PASSWORD=$ELASTIC_ADMIN_PASS
-      - FILEBEAT_SSL_VERIFICATION_MODE=full
-      - SSL_CERTIFICATE_AUTHORITIES=/etc/ssl/root-ca.pem
-      - SSL_CERTIFICATE=/etc/ssl/filebeat.pem
-      - SSL_KEY=/etc/ssl/filebeat.key
-    volumes:
-      - /data/wazuh/worker/ossec:/var/ossec
-      - /data/wazuh/worker/filebeat/etc:/etc/filebeat
-      - /data/wazuh/worker/filebeat/var:/var/lib/filebeat
-      - /data/wazuh/ssl_certs/root-ca.pem:/etc/ssl/root-ca.pem
-      - /data/wazuh/ssl_certs/filebeat.pem:/etc/ssl/filebeat.pem
-      - /data/wazuh/ssl_certs/filebeat.key:/etc/ssl/filebeat.key
-      - /data/wazuh/worker/wazuh_worker.conf:/wazuh-config-mount/etc/ossec.conf
+      - ./ssl_certs/root-ca.pem:/etc/ssl/root-ca.pem
+      - ./ssl_certs/filebeat.pem:/etc/ssl/filebeat.pem
+      - ./ssl_certs/filebeat.key:/etc/ssl/filebeat.key
   
   es01:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -77,10 +48,16 @@ services:
     networks:
       wazuh:
         ipv4_address: 10.0.1.11
+        aliases: elasticsearch
     ports:
       - "9200:9200"
     environment:
       - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+    healthcheck:
+      test: curl --cacert $CERTS_DIR/ca/ca.crt -s https://es01:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
     ulimits:
       memlock:
         soft: -1
@@ -91,10 +68,10 @@ services:
     volumes:
       - /data/elastic/es01:/usr/share/elasticsearch/data
       - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/node1.key:/usr/share/elasticsearch/config/node1.key
-      - ./ssl_certs/node1.pem:/usr/share/elasticsearch/config/node1.pem
-      - ./elastic_opendistro/elasticsearch-node1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_opendistro/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./ssl_certs/es01.key:/usr/share/elasticsearch/config/es01.key
+      - ./ssl_certs/es01.pem:/usr/share/elasticsearch/config/es01.pem
+      - ./elastic_conf/elasticsearch-es01.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
 
   es02:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -118,10 +95,10 @@ services:
     volumes:
       - /data/elastic/es02:/usr/share/elasticsearch/data
       - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/node2.key:/usr/share/elasticsearch/config/node2.key
-      - ./ssl_certs/node2.pem:/usr/share/elasticsearch/config/node2.pem
-      - ./elastic_opendistro/elasticsearch-node2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_opendistro/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./ssl_certs/es02.key:/usr/share/elasticsearch/config/es02.key
+      - ./ssl_certs/es02.pem:/usr/share/elasticsearch/config/es02.pem
+      - ./elastic_conf/elasticsearch-es02.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
 
   es03:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -145,10 +122,10 @@ services:
     volumes:
       - /data/elastic/es03:/usr/share/elasticsearch/data
       - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/node3.key:/usr/share/elasticsearch/config/node3.key
-      - ./ssl_certs/node3.pem:/usr/share/elasticsearch/config/node3.pem
-      - ./elastic_opendistro/elasticsearch-node3.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_opendistro/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./ssl_certs/es03.key:/usr/share/elasticsearch/config/es03.key
+      - ./ssl_certs/es03.pem:/usr/share/elasticsearch/config/es03.pem
+      - ./elastic_conf/elasticsearch-es03.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
   
   es04:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -172,10 +149,10 @@ services:
     volumes:
       - /data/elastic/es04:/usr/share/elasticsearch/data
       - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/node4.key:/usr/share/elasticsearch/config/node4.key
-      - ./ssl_certs/node4.pem:/usr/share/elasticsearch/config/node4.pem
-      - ./elastic_opendistro/elasticsearch-node4.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_opendistro/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./ssl_certs/es04.key:/usr/share/elasticsearch/config/es04.key
+      - ./ssl_certs/es04.pem:/usr/share/elasticsearch/config/es04.pem
+      - ./elastic_conf/elasticsearch-es04.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
 
   es05:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -199,10 +176,10 @@ services:
     volumes:
       - /data/elastic/es05:/usr/share/elasticsearch/data
       - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/node5.key:/usr/share/elasticsearch/config/node5.key
-      - ./ssl_certs/node5.pem:/usr/share/elasticsearch/config/node5.pem
-      - ./elastic_opendistro/elasticsearch-node5.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_opendistro/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./ssl_certs/es05.key:/usr/share/elasticsearch/config/es05.key
+      - ./ssl_certs/es05.pem:/usr/share/elasticsearch/config/es05.pem
+      - ./elastic_conf/elasticsearch-es05.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
 
   es06:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -226,11 +203,38 @@ services:
     volumes:
       - /data/elastic/es06:/usr/share/elasticsearch/data
       - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/node6.key:/usr/share/elasticsearch/config/node6.key
-      - ./ssl_certs/node6.pem:/usr/share/elasticsearch/config/node6.pem
-      - ./elastic_opendistro/elasticsearch-node6.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_opendistro/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./ssl_certs/es06.key:/usr/share/elasticsearch/config/es06.key
+      - ./ssl_certs/es06.pem:/usr/share/elasticsearch/config/es06.pem
+      - ./elastic_conf/elasticsearch-es06.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
   
+  es07:
+    image: amazon/opendistro-for-elasticsearch:1.13.2
+    hostname: es07
+    container_name: es07
+    restart: always
+    cpus: 1.0
+    mem_limit: 4g
+    networks:
+      wazuh:
+        ipv4_address: 10.0.1.17
+    environment:
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - /data/elastic/es07:/usr/share/elasticsearch/data
+      - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
+      - ./ssl_certs/es07.key:/usr/share/elasticsearch/config/es07.key
+      - ./ssl_certs/es07.pem:/usr/share/elasticsearch/config/es07.pem
+      - ./elastic_conf/elasticsearch-es07.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+
   kibana:
     image: wazuh/wazuh-kibana-odfe:4.1.5
     hostname: kibana

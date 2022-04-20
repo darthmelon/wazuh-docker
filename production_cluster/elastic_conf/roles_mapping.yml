@@ -8,12 +8,11 @@ _meta:
 
 # Define your roles mapping here
 
-## Demo roles mapping
-
 all_access:
   reserved: false
   backend_roles:
   - "admin"
+  - "wazuh"
   description: "Maps admin to all_access"
 
 own_index:
