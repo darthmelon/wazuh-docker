@@ -48,7 +48,7 @@ services:
     networks:
       wazuh:
         ipv4_address: 10.0.1.11
-        aliases: elasticsearch
+        aliases: "elasticsearch"
     ports:
       - "9200:9200"
     environment:
