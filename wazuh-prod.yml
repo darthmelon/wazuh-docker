@@ -48,16 +48,12 @@ services:
     networks:
       wazuh:
         ipv4_address: 10.0.1.11
-        aliases: "elasticsearch"
+        aliases: 
+          - elasticsearch
     ports:
       - "9200:9200"
     environment:
       - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
-    healthcheck:
-      test: curl --cacert $CERTS_DIR/ca/ca.crt -s https://es01:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
-      interval: 30s
-      timeout: 10s
-      retries: 5
     ulimits:
       memlock:
         soft: -1
@@ -67,11 +63,13 @@ services:
         hard: 65536
     volumes:
       - /data/elastic/es01:/usr/share/elasticsearch/data
-      - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/es01.key:/usr/share/elasticsearch/config/es01.key
-      - ./ssl_certs/es01.pem:/usr/share/elasticsearch/config/es01.pem
-      - ./elastic_conf/elasticsearch-es01.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./production_cluster/ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
+      - ./production_cluster/ssl_certs/es01.key:/usr/share/elasticsearch/config/es01.key
+      - ./production_cluster/ssl_certs/es01.pem:/usr/share/elasticsearch/config/es01.pem
+      - ./production_cluster/ssl_certs/admin.pem:/usr/share/elasticsearch/config/admin.pem
+      - ./production_cluster/ssl_certs/admin.key:/usr/share/elasticsearch/config/admin.key
+      - ./production_cluster/elastic_conf/elasticsearch-es01.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./production_cluster/elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
 
   es02:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -94,11 +92,13 @@ services:
         hard: 65536
     volumes:
       - /data/elastic/es02:/usr/share/elasticsearch/data
-      - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/es02.key:/usr/share/elasticsearch/config/es02.key
-      - ./ssl_certs/es02.pem:/usr/share/elasticsearch/config/es02.pem
-      - ./elastic_conf/elasticsearch-es02.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./production_cluster/ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
+      - ./production_cluster/ssl_certs/es02.key:/usr/share/elasticsearch/config/es02.key
+      - ./production_cluster/ssl_certs/es02.pem:/usr/share/elasticsearch/config/es02.pem
+      - ./production_cluster/ssl_certs/admin.pem:/usr/share/elasticsearch/config/admin.pem
+      - ./production_cluster/ssl_certs/admin.key:/usr/share/elasticsearch/config/admin.key
+      - ./eproduction_cluster/lastic_conf/elasticsearch-es02.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./production_cluster/lastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
 
   es03:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -121,11 +121,13 @@ services:
         hard: 65536
     volumes:
       - /data/elastic/es03:/usr/share/elasticsearch/data
-      - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/es03.key:/usr/share/elasticsearch/config/es03.key
-      - ./ssl_certs/es03.pem:/usr/share/elasticsearch/config/es03.pem
-      - ./elastic_conf/elasticsearch-es03.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./production_cluster/ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
+      - ./production_cluster/ssl_certs/es03.key:/usr/share/elasticsearch/config/es03.key
+      - ./production_cluster/ssl_certs/es03.pem:/usr/share/elasticsearch/config/es03.pem
+      - ./production_cluster/ssl_certs/admin.pem:/usr/share/elasticsearch/config/admin.pem
+      - ./production_cluster/ssl_certs/admin.key:/usr/share/elasticsearch/config/admin.key
+      - ./production_cluster/elastic_conf/elasticsearch-es03.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./production_cluster/elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
   
   es04:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -148,11 +150,13 @@ services:
         hard: 65536
     volumes:
       - /data/elastic/es04:/usr/share/elasticsearch/data
-      - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/es04.key:/usr/share/elasticsearch/config/es04.key
-      - ./ssl_certs/es04.pem:/usr/share/elasticsearch/config/es04.pem
-      - ./elastic_conf/elasticsearch-es04.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./production_cluster/ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
+      - ./production_cluster/ssl_certs/es04.key:/usr/share/elasticsearch/config/es04.key
+      - ./production_cluster/ssl_certs/es04.pem:/usr/share/elasticsearch/config/es04.pem
+      - ./production_cluster/ssl_certs/admin.pem:/usr/share/elasticsearch/config/admin.pem
+      - ./production_cluster/ssl_certs/admin.key:/usr/share/elasticsearch/config/admin.key
+      - ./production_cluster/elastic_conf/elasticsearch-es04.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./production_cluster/elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
 
   es05:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -175,11 +179,13 @@ services:
         hard: 65536
     volumes:
       - /data/elastic/es05:/usr/share/elasticsearch/data
-      - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/es05.key:/usr/share/elasticsearch/config/es05.key
-      - ./ssl_certs/es05.pem:/usr/share/elasticsearch/config/es05.pem
-      - ./elastic_conf/elasticsearch-es05.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./production_cluster/ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
+      - ./sproduction_cluster/sl_certs/es05.key:/usr/share/elasticsearch/config/es05.key
+      - ./production_cluster/ssl_certs/es05.pem:/usr/share/elasticsearch/config/es05.pem
+      - ./production_cluster/ssl_certs/admin.pem:/usr/share/elasticsearch/config/admin.pem
+      - ./production_cluster/ssl_certs/admin.key:/usr/share/elasticsearch/config/admin.key
+      - ./production_cluster/elastic_conf/elasticsearch-es05.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./production_cluster/elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
 
   es06:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -202,11 +208,13 @@ services:
         hard: 65536
     volumes:
       - /data/elastic/es06:/usr/share/elasticsearch/data
-      - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/es06.key:/usr/share/elasticsearch/config/es06.key
-      - ./ssl_certs/es06.pem:/usr/share/elasticsearch/config/es06.pem
-      - ./elastic_conf/elasticsearch-es06.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./production_cluster/ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
+      - ./production_cluster/ssl_certs/es06.key:/usr/share/elasticsearch/config/es06.key
+      - ./production_cluster/ssl_certs/es06.pem:/usr/share/elasticsearch/config/es06.pem
+      - ./production_cluster/ssl_certs/admin.pem:/usr/share/elasticsearch/config/admin.pem
+      - ./production_cluster/ssl_certs/admin.key:/usr/share/elasticsearch/config/admin.key
+      - ./production_cluster/elastic_conf/elasticsearch-es06.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./production_cluster/elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
   
   es07:
     image: amazon/opendistro-for-elasticsearch:1.13.2
@@ -229,11 +237,13 @@ services:
         hard: 65536
     volumes:
       - /data/elastic/es07:/usr/share/elasticsearch/data
-      - ./ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./ssl_certs/es07.key:/usr/share/elasticsearch/config/es07.key
-      - ./ssl_certs/es07.pem:/usr/share/elasticsearch/config/es07.pem
-      - ./elastic_conf/elasticsearch-es07.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+      - ./production_cluster/ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
+      - ./production_cluster/ssl_certs/es07.key:/usr/share/elasticsearch/config/es07.key
+      - ./production_cluster/ssl_certs/es07.pem:/usr/share/elasticsearch/config/es07.pem
+      - ./production_cluster/ssl_certs/admin.pem:/usr/share/elasticsearch/config/admin.pem
+      - ./production_cluster/ssl_certs/admin.key:/usr/share/elasticsearch/config/admin.key
+      - ./production_cluster/elastic_conf/elasticsearch-es07.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./production_cluster/elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
 
   kibana:
     image: wazuh/wazuh-kibana-odfe:4.1.5
@@ -259,8 +269,8 @@ services:
       - API_USERNAME=wazuh-api
       - API_PASSWORD=$WAZUH_API_PASS
     volumes:
-      - ./kibana_ssl/cert.pem:/usr/share/kibana/config/cert.pem
-      - ./kibana_ssl/key.pem:/usr/share/kibana/config/key.pem
+      - ./production_cluster/kibana_ssl/cert.pem:/usr/share/kibana/config/cert.pem
+      - ./production_cluster/kibana_ssl/key.pem:/usr/share/kibana/config/key.pem
     depends_on:
       - es01
 
@@ -282,8 +292,8 @@ services:
       - wazuh
       - kibana
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./production_cluster/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./production_cluster/nginx/ssl:/etc/nginx/ssl:ro
 
 networks:
   wazuh:
