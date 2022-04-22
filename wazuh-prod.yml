@@ -3,7 +3,7 @@ version: '3.7'
 
 services:
   wazuh:
-    image: wazuh/wazuh-odfe:4.2.5
+    image: wazuh/wazuh-odfe:4.2.6
     hostname: wazuh-manager
     container_name: wazuh-manager
     restart: always
@@ -264,7 +264,7 @@ services:
       wazuh:
         ipv4_address: 10.0.1.8
     ports:
-      - 5601:5601
+      - "5601:5601"
     env_file:
       - ".env"
     environment:
