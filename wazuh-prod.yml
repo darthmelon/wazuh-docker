@@ -42,9 +42,9 @@ services:
       - filebeat-etc:/etc/filebeat
       - filebeat-var:/var/lib/filebeat
       - ./production_cluster/wazuh_cluster/wazuh_manager.conf:/wazuh-config-mount/etc/ossec.conf
-      - ./ssl_certs/root-ca.pem:/etc/ssl/root-ca.pem
-      - ./ssl_certs/filebeat.pem:/etc/ssl/filebeat.pem
-      - ./ssl_certs/filebeat.key:/etc/ssl/filebeat.key
+      - ./production_cluster/ssl_certs/root-ca.pem:/etc/ssl/root-ca.pem
+      - ./production_cluster/ssl_certs/filebeat.pem:/etc/ssl/filebeat.pem
+      - ./production_cluster/ssl_certs/filebeat.key:/etc/ssl/filebeat.key
   
   es01:
     image: amazon/opendistro-for-elasticsearch:1.13.2
