@@ -13,7 +13,7 @@ services:
       wazuh:
         ipv4_address: 10.0.1.5
     ports:
-      - 1514/tcp
+      - "1514:1514"
       - "1515:1515"
       - "514:514/udp"
       - "55000:55000"
@@ -287,9 +287,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "1514:1514"
     depends_on:
-      - wazuh
       - kibana
     volumes:
       - ./production_cluster/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
