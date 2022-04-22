@@ -30,10 +30,18 @@ services:
       - API_USERNAME=wazuh-api
       - API_PASSWORD=$WAZUH_API_PASS
     volumes:
-      - /data/wazuh/manager/ossec:/var/ossec
-      - /data/wazuh/manager/filebeat/etc:/etc/filebeat
-      - /data/wazuh/manager/filebeat/var:/var/lib/filebeat
-      - /data/wazuh/manager/wazuh_manager.conf:/wazuh-config-mount/etc/ossec.conf
+      - ossec-api-configuration:/var/ossec/api/configuration
+      - ossec-etc:/var/ossec/etc
+      - ossec-logs:/var/ossec/logs
+      - ossec-queue:/var/ossec/queue
+      - ossec-var-multigroups:/var/ossec/var/multigroups
+      - ossec-integrations:/var/ossec/integrations
+      - ossec-active-response:/var/ossec/active-response/bin
+      - ossec-agentless:/var/ossec/agentless
+      - ossec-wodles:/var/ossec/wodles
+      - filebeat-etc:/etc/filebeat
+      - filebeat-var:/var/lib/filebeat
+      - ./production_cluster/wazuh_cluster/wazuh_manager.conf:/wazuh-config-mount/etc/ossec.conf
       - ./ssl_certs/root-ca.pem:/etc/ssl/root-ca.pem
       - ./ssl_certs/filebeat.pem:/etc/ssl/filebeat.pem
       - ./ssl_certs/filebeat.key:/etc/ssl/filebeat.key
@@ -300,3 +308,16 @@ networks:
       driver: default
       config:
         - subnet: 10.0.1.0/24
+
+volumes:
+  ossec-api-configuration:
+  ossec-etc:
+  ossec-logs:
+  ossec-queue:
+  ossec-var-multigroups:
+  ossec-integrations:
+  ossec-active-response:
+  ossec-agentless:
+  ossec-wodles:
+  filebeat-etc:
+  filebeat-var:
