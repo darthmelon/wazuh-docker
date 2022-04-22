@@ -180,7 +180,7 @@ services:
     volumes:
       - /data/elastic/es05:/usr/share/elasticsearch/data
       - ./production_cluster/ssl_certs/root-ca.pem:/usr/share/elasticsearch/config/root-ca.pem
-      - ./sproduction_cluster/sl_certs/es05.key:/usr/share/elasticsearch/config/es05.key
+      - ./production_cluster/ssl_certs/es05.key:/usr/share/elasticsearch/config/es05.key
       - ./production_cluster/ssl_certs/es05.pem:/usr/share/elasticsearch/config/es05.pem
       - ./production_cluster/ssl_certs/admin.pem:/usr/share/elasticsearch/config/admin.pem
       - ./production_cluster/ssl_certs/admin.key:/usr/share/elasticsearch/config/admin.key
