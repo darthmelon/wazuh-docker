@@ -38,6 +38,10 @@ nodes:
     dn: CN=es06,OU=beeteedubs,O=beeteedubs
     dns:
       - es06
+  - name: es07
+    dn: CN=es07,OU=beeteedubs,O=beeteedubs
+    dns:
+      - es07
   - name: filebeat
     dn: CN=filebeat,OU=beeteedubs,O=beeteedubs
     dns:
