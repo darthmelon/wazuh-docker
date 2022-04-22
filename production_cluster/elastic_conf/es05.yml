@@ -33,7 +33,7 @@ opendistro_security.nodes_dn:
     - 'CN=es06,OU=beeteedubs,O=beeteedubs'
     - 'CN=es07,OU=beeteedubs,O=beeteedubs'
     - 'CN=filebeat,OU=beeteedubs,O=beeteedubs'
-opendistro_security.authcz.admin_dn: []
+opendistro_security.authcz.admin_dn: 
     - 'CN=es01,OU=beeteedubs,O=beeteedubs'
     - 'CN=es02,OU=beeteedubs,O=beeteedubs'
     - 'CN=es03,OU=beeteedubs,O=beeteedubs'

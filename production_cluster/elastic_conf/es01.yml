@@ -33,7 +33,7 @@ opendistro_security.nodes_dn:
     - 'CN=es06,OU=beeteedubs,O=beeteedubs'
     - 'CN=es07,OU=beeteedubs,O=beeteedubs'
     - 'CN=filebeat,OU=beeteedubs,O=beeteedubs'
-opendistro_security.authcz.admin_dn: []
+opendistro_security.authcz.admin_dn: 
     - 'CN=es01,OU=beeteedubs,O=beeteedubs'
     - 'CN=es02,OU=beeteedubs,O=beeteedubs'
     - 'CN=es03,OU=beeteedubs,O=beeteedubs'
@@ -50,9 +50,3 @@ cluster.routing.allocation.disk.threshold_enabled: false
 #opendistro_security.audit.config.disabled_rest_categories: NONE
 #opendistro_security.audit.config.disabled_transport_categories: NONE
 opendistro_security.audit.log_request_body: false
-
-
-node.max_local_storage_nodes: 3
-
-path.data: /var/lib/elasticsearch
-path.logs: /var/log/elasticsearch
