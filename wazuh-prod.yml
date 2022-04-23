@@ -254,7 +254,7 @@ services:
       - ./production_cluster/elastic_conf/internal_users.yml:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
 
   kibana:
-    image: wazuh/wazuh-kibana-odfe:4.1.5
+    image: wazuh/wazuh-kibana-odfe:4.2.6
     hostname: kibana
     container_name: kibana
     restart: always
