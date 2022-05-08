@@ -7,7 +7,7 @@ services:
     hostname: wazuh-manager
     container_name: wazuh-manager
     restart: always
-    cpus: 1.0
+    cpus: 2.0
     mem_limit: 2g
     networks:
       wazuh:
@@ -51,7 +51,7 @@ services:
     hostname: es01
     container_name: es01
     restart: always
-    cpus: 1.0
+    cpus: 2.0
     mem_limit: 4g
     networks:
       wazuh:
@@ -84,7 +84,7 @@ services:
     hostname: es02
     container_name: es02
     restart: always
-    cpus: 1.0
+    cpus: 2.0
     mem_limit: 4g
     networks:
       wazuh:
@@ -113,7 +113,7 @@ services:
     hostname: es03
     container_name: es03
     restart: always
-    cpus: 1.0
+    cpus: 2.0
     mem_limit: 4g
     networks:
       wazuh:
@@ -142,7 +142,7 @@ services:
     hostname: es04
     container_name: es04
     restart: always
-    cpus: 1.0
+    cpus: 2.0
     mem_limit: 8g
     networks:
       wazuh:
@@ -171,7 +171,7 @@ services:
     hostname: es05
     container_name: es05
     restart: always
-    cpus: 1.0
+    cpus: 2.0
     mem_limit: 8g
     networks:
       wazuh:
@@ -200,7 +200,7 @@ services:
     hostname: es06
     container_name: es06
     restart: always
-    cpus: 1.0
+    cpus: 2.0
     mem_limit: 8g
     networks:
       wazuh:
@@ -229,7 +229,7 @@ services:
     hostname: es07
     container_name: es07
     restart: always
-    cpus: 1.0
+    cpus: 2.0
     mem_limit: 4g
     networks:
       wazuh:
